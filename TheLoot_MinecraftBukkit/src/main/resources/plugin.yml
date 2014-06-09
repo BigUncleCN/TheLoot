@@ -1,5 +1,5 @@
 name: TheLoot
-main: com.jabstruse.mcloot.loot.Loot
+main: com.jabstruse.mcloot.loot.LootPlugin
 version: 1.0.0
 author: HexPang
 commands:

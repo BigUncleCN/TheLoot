@@ -3,14 +3,18 @@ package com.jabstruse.mcloot.loot;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class Loot extends JavaPlugin {
+public final class LootPlugin extends JavaPlugin {
 	private static Plugin instance;
+	private final LPlayerListener playerListener = new LPlayerListener(this);
 	@Override
 	public void onEnable() {
 		// TODO Insert logic to be performed when the plugin is enabled
 		instance = this;
+		PluginManager pm = getServer().getPluginManager();
+		pm.registerEvents(playerListener, this);
 		getLogger().info("onEnable has been invoked!");
 	}
 
