@@ -22,11 +22,14 @@ public class LootListener implements Listener {
 	
 	@EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
 	public void onEntityDamage(EntityDamageEvent event) {
-		plugin.getLogger().info(" == onEntityDamageByEntityEvent == " + event.getCause());
+		//plugin.getLogger().info(" == onEntityDamageByEntityEvent == " + event.getCause());
 	}
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onEntityDeath(EntityDeathEvent event){
-		plugin.getLogger().info(" == onEntityDeathEvent == " + event.getDrops().size());
+		//plugin.getLogger().info(" == onEntityDeathEvent == " + event.getDrops().size());
+		if(event.getEntity().getKiller()!=null){
+			
+		}
 	}
 }
