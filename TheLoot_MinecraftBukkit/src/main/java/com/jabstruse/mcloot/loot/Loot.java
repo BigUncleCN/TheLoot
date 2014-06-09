@@ -2,12 +2,15 @@ package com.jabstruse.mcloot.loot;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Loot extends JavaPlugin {
+	private static Plugin instance;
 	@Override
 	public void onEnable() {
 		// TODO Insert logic to be performed when the plugin is enabled
+		instance = this;
 		getLogger().info("onEnable has been invoked!");
 	}
 
@@ -25,5 +28,9 @@ public final class Loot extends JavaPlugin {
 		} //If this has happened the function will return true. 
 	        // If this hasn't happened the value of false will be returned.
 		return false; 
+	}
+	
+	public static Plugin getInstance() {
+		return instance;
 	}
 }
