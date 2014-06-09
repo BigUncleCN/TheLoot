@@ -1,12 +1,10 @@
 package com.jabstruse.mcloot.loot;
 
-import java.util.List;
-
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class LootListener implements Listener {
@@ -22,13 +20,13 @@ public class LootListener implements Listener {
 		event.getPlayer().sendMessage("Welcome " + event.getPlayer().getPlayerListName());
 	}
 	
-	@EventHandler
-	public void onEntityDamageByEntityEvent(Entity damager, Entity damagee, DamageCause cause, int damage){
-		plugin.getLogger().info(" == onEntityDamageByEntityEvent == " + damager.getLastDamageCause() + " Cause : " + cause);
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
+	public void onEntityDamage(EntityDamageEvent event) {
+		plugin.getLogger().info(" == onEntityDamageByEntityEvent == " + event.getCause());
 	}
 	
-	@EventHandler
-	public void onEntityDeathEvent(LivingEntity entity, List drops){
-		plugin.getLogger().info(" == onEntityDeathEvent == " + entity.getLastDamageCause() + " Drops : " + drops.size());
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onEntityDeath(EntityDeathEvent event){
+		plugin.getLogger().info(" == onEntityDeathEvent == " + event.getDrops().size());
 	}
 }
