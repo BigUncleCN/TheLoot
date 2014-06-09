@@ -8,7 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LootPlugin extends JavaPlugin {
 	private static Plugin instance;
-	private final LPlayerListener playerListener = new LPlayerListener(this);
+	private final LootListener playerListener = new LootListener(this);
 	@Override
 	public void onEnable() {
 		// TODO Insert logic to be performed when the plugin is enabled
