@@ -126,7 +126,7 @@ public class LootController {
 					r1 = r1 + (int) (needle * mf);
 				}
 				System.out.println(" NEED : " + needle + " ROLL : " + r1);
-				if (r1 < needle) {
+				if (r1 < needle && random.nextInt(2)==1) {
 					itemQuality = ItemQuality.values()[j];
 					break;
 				}
