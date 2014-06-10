@@ -32,6 +32,11 @@ public class LootController {
 		random.setSeed(System.currentTimeMillis());
 		float mfOffset = 0.0f;
 		EntityType monsterType = entity.getType();
+		
+		if(random.nextInt(100) < 95){
+			return null;
+		}
+		
 		// monsterType.
 		switch (monsterType) {
 		case CREEPER:
@@ -102,7 +107,7 @@ public class LootController {
 			for (int j = 0; j < itemQualitySize; j++) {
 				r1 = (random.nextInt(99) + 1)
 						+ random.nextInt(itemQualitySize * 2);
-				int needle = (j * 10) + 10;
+				int needle = (j * 10) + 30;
 				if (j == 0) {
 					needle = 5;
 				}
@@ -115,6 +120,7 @@ public class LootController {
 				} else if (mf < 1) {
 					r1 = r1 + (int) (needle * mf);
 				}
+				System.out.println(" NEED : " + needle + " ROLL : " + r1);
 				if (r1 < needle) {
 					itemQuality = ItemQuality.values()[j];
 					break;
