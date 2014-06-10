@@ -35,8 +35,10 @@ public class LootListener implements Listener {
 			List<ItemStack> items = event.getDrops();
 			items.clear();
 			ItemStack[] loots = LootController.GetLoots(event.getEntity(), event.getEntity().getKiller(),plugin);
-			for (ItemStack itemStack : loots) {
-				items.add(itemStack);
+			if(loots != null){
+				for (ItemStack itemStack : loots) {
+					items.add(itemStack);
+				}
 			}
 		}
 	}
