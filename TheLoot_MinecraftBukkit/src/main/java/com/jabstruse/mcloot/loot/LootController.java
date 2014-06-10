@@ -12,8 +12,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class LootController {
-	// ±¬ÂÊµÝÔö
-	// ÎäÆ÷
+	// çˆ†çŽ‡é€’å¢ž
+	// æ­¦å™¨
 	private static Material[] weapons = { Material.ARROW, Material.WOOD_SWORD,
 			Material.STONE_SWORD, Material.IRON_SWORD, Material.GOLD_SWORD,
 			Material.DIAMOND_SWORD, Material.BOW };
