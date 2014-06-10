@@ -32,8 +32,9 @@ public class LootController {
 		random.setSeed(System.currentTimeMillis());
 		float mfOffset = 0.0f;
 		EntityType monsterType = entity.getType();
-		
-		if(random.nextInt(100) < 95){
+		int testInt = random.nextInt(100);
+		plugin.getLogger().info("Test Number : " + testInt);
+		if(testInt < 95){
 			return null;
 		}
 		
