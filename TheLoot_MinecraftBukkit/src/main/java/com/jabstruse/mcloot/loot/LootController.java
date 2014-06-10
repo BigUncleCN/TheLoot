@@ -34,11 +34,8 @@ public class LootController {
 		EntityType monsterType = entity.getType();
 		int testInt = random.nextInt(100);
 		plugin.getLogger().info("Test Number : " + testInt);
-		if(testInt < 85){
-			plugin.getLogger().info("Test Failed....");
-			return null;
-		}
-		plugin.getLogger().info("Test Success....");
+		int testNeedle = 85;
+		
 		// monsterType.
 		switch (monsterType) {
 		case CREEPER:
@@ -65,6 +62,7 @@ public class LootController {
 			maxDrops += 4;
 			minDrop = 4;
 			mfOffset += 0.8f;
+			testNeedle = 60;
 			break;
 		case PIG:
 			maxDrops = 1;
@@ -82,6 +80,11 @@ public class LootController {
 			mfOffset += 0;
 			break;
 		}
+		if(testInt < testNeedle){
+			plugin.getLogger().info("Test Failed....");
+			return null;
+		}
+		plugin.getLogger().info("Test Success....");
 		realDrop = (byte) random.nextInt(maxDrops);
 
 		if (realDrop < minDrop) {
