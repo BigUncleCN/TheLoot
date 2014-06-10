@@ -34,7 +34,7 @@ public class LootController {
 		EntityType monsterType = entity.getType();
 		int testInt = random.nextInt(100);
 		plugin.getLogger().info("Test Number : " + testInt);
-		if(testInt < 95){
+		if(testInt < 85){
 			return null;
 		}
 		
