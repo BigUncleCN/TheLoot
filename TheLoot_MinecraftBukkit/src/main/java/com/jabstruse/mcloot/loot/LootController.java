@@ -35,9 +35,10 @@ public class LootController {
 		int testInt = random.nextInt(100);
 		plugin.getLogger().info("Test Number : " + testInt);
 		if(testInt < 85){
+			plugin.getLogger().info("Test Failed....");
 			return null;
 		}
-		
+		plugin.getLogger().info("Test Success....");
 		// monsterType.
 		switch (monsterType) {
 		case CREEPER:
@@ -163,10 +164,12 @@ public class LootController {
 			im.setDisplayName(display_name);
 
 			itemStacks[i].setItemMeta(im);
+			
 			for (int e = 0; e < enchantmentSize; e++) {
 				int lv = random.nextInt(2) + 1
 						+ (random.nextInt(enchantmentSize) / 2);
 				int enchanted = 0;
+				int enchErr = 0;
 				while (enchanted < 1) {
 					int rnd = random.nextInt(Enchantment.values().length);
 					Enchantment ench = Enchantment.values()[rnd];
@@ -175,7 +178,11 @@ public class LootController {
 						itemStacks[i].addEnchantment(ench, lv);
 						enchanted++;
 					} catch (Exception e2) {
+						enchErr++;
 						// TODO: handle exception
+					}
+					if(enchErr>=10){
+						break;
 					}
 				}
 
