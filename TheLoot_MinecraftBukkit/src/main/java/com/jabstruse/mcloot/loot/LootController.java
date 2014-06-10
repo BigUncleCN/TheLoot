@@ -66,7 +66,12 @@ public class LootController {
 			realDrop = minDrop;
 		}
 		mf += mfOffset;
+		
 		plugin.getLogger().info(" MF : " + mf);
+		
+		for(int i=0;i<realDrop;i++){
+			
+		}
 		/*
 		String myDisplayName = "Awesome Sword"; // use the displayname you want
 												// here
