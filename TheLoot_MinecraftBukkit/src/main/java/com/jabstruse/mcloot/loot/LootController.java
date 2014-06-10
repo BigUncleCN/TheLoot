@@ -15,10 +15,15 @@ public class LootController {
 	// ±¬ÂÊµÝÔö
 	// ÎäÆ÷
 	private static Material[] weapons = { Material.ARROW, Material.WOOD_SWORD,
-			Material.STONE_SWORD, Material.GOLD_SWORD, Material.DIAMOND_SWORD,
-			Material.BOW };
+			Material.STONE_SWORD, Material.IRON_SWORD, Material.GOLD_SWORD,
+			Material.DIAMOND_SWORD, Material.BOW };
 	private static Material[] tools = { Material.WOOD_AXE, Material.WOOD_HOE,
-			Material.WOOD_PICKAXE, Material.WOOD_SPADE };
+			Material.WOOD_PICKAXE, Material.STONE_AXE, Material.STONE_HOE,
+			Material.STONE_PICKAXE, Material.IRON_AXE, Material.IRON_HOE,
+			Material.IRON_PICKAXE, Material.GOLD_AXE, Material.GOLD_HOE,
+			Material.GOLD_PICKAXE, Material.DIAMOND_AXE, Material.DIAMOND_HOE,
+			Material.DIAMOND_PICKAXE };
+	private static Material[] equpments = {Material.IRON_BOOTS,Material.IRON_CHESTPLATE,Material.IRON_HELMET,Material.IRON_LEGGINGS};
 
 	public static ItemStack[] GetLoots(Entity entity, Player player,
 			LootPlugin plugin) {
@@ -35,7 +40,7 @@ public class LootController {
 		int testInt = random.nextInt(100);
 		plugin.getLogger().info("Test Number : " + testInt);
 		int testNeedle = 85;
-		
+
 		// monsterType.
 		switch (monsterType) {
 		case CREEPER:
@@ -80,7 +85,7 @@ public class LootController {
 			mfOffset += 0;
 			break;
 		}
-		if(testInt < testNeedle){
+		if (testInt < testNeedle) {
 			plugin.getLogger().info("Test Failed....");
 			return null;
 		}
@@ -126,7 +131,7 @@ public class LootController {
 					r1 = r1 + (int) (needle * mf);
 				}
 				System.out.println(" NEED : " + needle + " ROLL : " + r1);
-				if (r1 < needle && random.nextInt(2)==1) {
+				if (r1 < needle && random.nextInt(2) == 1) {
 					itemQuality = ItemQuality.values()[j];
 					break;
 				}
@@ -167,7 +172,7 @@ public class LootController {
 			im.setDisplayName(display_name);
 
 			itemStacks[i].setItemMeta(im);
-			
+
 			for (int e = 0; e < enchantmentSize; e++) {
 				int lv = random.nextInt(2) + 1
 						+ (random.nextInt(enchantmentSize) / 2);
@@ -184,7 +189,7 @@ public class LootController {
 						enchErr++;
 						// TODO: handle exception
 					}
-					if(enchErr>=10){
+					if (enchErr >= 10) {
 						break;
 					}
 				}
