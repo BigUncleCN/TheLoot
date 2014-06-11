@@ -1,5 +1,9 @@
 package com.jabstruse.mcloot.loot;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
@@ -8,12 +12,29 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LootPlugin extends JavaPlugin {
 	private static Plugin instance;
-	private final LootListener playerListener = new LootListener(this);
+	private LootListener playerListener = null;// = new LootListener(this);
+	private static List<String> dropItems = null;
+	@SuppressWarnings("unchecked")
 	@Override
 	public void onEnable() {
 		// TODO Insert logic to be performed when the plugin is enabled
 		instance = this;
 		PluginManager pm = getServer().getPluginManager();
+		dropItems = (List<String>) this.getConfig().getList("loot.drop.items");
+		if(dropItems == null){
+			dropItems = new ArrayList<String>();
+			for (Material material : Material.values()) {
+				dropItems.add(material.name() + ":" + "100.0");
+			}
+			this.saveDefaultConfig();
+			this.getConfig().options().copyDefaults(true);
+			this.getConfig().set("loot.drop.items", dropItems);
+			this.saveConfig();
+			getLogger().info("Loots Item Init...");
+		}else{
+			getLogger().info(dropItems.size() + " Loots Items Loaded.");
+		}
+		playerListener = new LootListener(this,dropItems);
 		pm.registerEvents(playerListener, this);
 		getLogger().info("onEnable has been invoked!");
 	}

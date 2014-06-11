@@ -1,0 +1,4 @@
+#drop items and drop rate.
+loot:
+  drop:
+   items:

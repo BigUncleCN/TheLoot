@@ -1,5 +1,6 @@
 package com.jabstruse.mcloot.loot;
 
+import java.util.List;
 import java.util.Random;
 
 import org.bukkit.ChatColor;
@@ -12,21 +13,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class LootController {
-	// 鐖嗙巼閫掑
-	// 姝﹀櫒
-	private static Material[] weapons = { Material.ARROW, Material.WOOD_SWORD,
-			Material.STONE_SWORD, Material.IRON_SWORD, Material.GOLD_SWORD,
-			Material.DIAMOND_SWORD, Material.BOW };
-	private static Material[] tools = { Material.WOOD_AXE, Material.WOOD_HOE,
-			Material.WOOD_PICKAXE, Material.STONE_AXE, Material.STONE_HOE,
-			Material.STONE_PICKAXE, Material.IRON_AXE, Material.IRON_HOE,
-			Material.IRON_PICKAXE, Material.GOLD_AXE, Material.GOLD_HOE,
-			Material.GOLD_PICKAXE, Material.DIAMOND_AXE, Material.DIAMOND_HOE,
-			Material.DIAMOND_PICKAXE };
-	private static Material[] equpments = {Material.IRON_BOOTS,Material.IRON_CHESTPLATE,Material.IRON_HELMET,Material.IRON_LEGGINGS};
-
+	// 爆率递增
+	// 武器
+	
 	public static ItemStack[] GetLoots(Entity entity, Player player,
-			LootPlugin plugin) {
+			LootPlugin plugin,List<String> itemDrops) {
 		// MonsterType monsterType
 		float mf = 1.0f; // Magic Find 100%
 		byte maxDrops = 2; // How many items should drops
@@ -96,46 +87,26 @@ public class LootController {
 			realDrop = minDrop;
 		}
 		mf += mfOffset;
-		if (plugin != null)
-			plugin.getLogger().info(" MF : " + mf + " DROPS : " + realDrop);
-		else
-			System.out.println(" MF : " + mf + " DROPS : " + realDrop);
+		plugin.getLogger().info(" MF : " + mf + " DROPS : " + realDrop);
 		ItemQuality itemQuality = null;
 		ItemStack[] itemStacks = new ItemStack[realDrop];
 		for (int i = 0; i < realDrop; i++) {
-			int isTool = random.nextInt(2);
 			int r = 0;
 			Material material = null;
-			if (isTool == 0) {
-				r = random.nextInt(tools.length);
-				material = tools[r];
-			} else if (isTool == 1) {
-				r = random.nextInt(weapons.length);
-				material = weapons[r];
-			}
-			int r1 = -1;
+			r = random.nextInt(itemDrops.size());
+			String itemD = itemDrops.get(r);
+			String dd[] = itemD.split(":");
+			float dropRate = Float.parseFloat(dd[1]);
+			material = Material.getMaterial(dd[0]);
+			float r1 = -1;
 			for (int j = 0; j < itemQualitySize; j++) {
-				r1 = (random.nextInt(99) + 1)
-						+ random.nextInt(itemQualitySize * 2);
-				int needle = (j * 10) + 30;
-				if (j == 0) {
-					needle = 5;
-				}
-				if (j == 1) {
-					needle = 3;
-				}
-				if (mf > 1) {
-					// worked when Magic Find Bigger Than 100%
-					r1 = r1 - (int) (needle * mf);
-				} else if (mf < 1) {
-					r1 = r1 + (int) (needle * mf);
-				}
-				System.out.println(" NEED : " + needle + " ROLL : " + r1);
-				if (r1 < needle && random.nextInt(2) == 1) {
+				r1 = (random.nextInt(99) + 1);
+				r1 = r1 - ((r1 * mf)-r1);
+				if(r1 <= dropRate){
+					//物品质量选择
 					itemQuality = ItemQuality.values()[j];
 					break;
 				}
-
 			}
 			if (itemQuality == null)
 				itemQuality = ItemQuality.Nomore;
@@ -181,15 +152,16 @@ public class LootController {
 				while (enchanted < 1) {
 					int rnd = random.nextInt(Enchantment.values().length);
 					Enchantment ench = Enchantment.values()[rnd];
-					plugin.getLogger().info("Enchantment : " + ench);
+					//
 					try {
 						itemStacks[i].addEnchantment(ench, lv);
+						plugin.getLogger().info("Enchantment : " + ench);
 						enchanted++;
 					} catch (Exception e2) {
 						enchErr++;
 						// TODO: handle exception
 					}
-					if (enchErr >= 10) {
+					if (enchErr >= 5) {
 						break;
 					}
 				}

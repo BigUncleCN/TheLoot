@@ -12,9 +12,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class LootListener implements Listener {
 	private final LootPlugin plugin;
-
-	public LootListener(LootPlugin instance) {
+	private List<String> dropitems = null;
+	public LootListener(LootPlugin instance,List<String> dropItems) {
 		plugin = instance;
+		this.dropitems = dropItems;
 		plugin.getLogger().info("Player Listener Hooked.");
 	}
 
@@ -33,7 +34,7 @@ public class LootListener implements Listener {
 		plugin.getLogger().info(" == onEntityDeathEvent == " + event.getEntity().getKiller());
 		if(event.getEntity().getKiller()!=null){
 			List<ItemStack> items = event.getDrops();
-			ItemStack[] loots = LootController.GetLoots(event.getEntity(), event.getEntity().getKiller(),plugin);
+			ItemStack[] loots = LootController.GetLoots(event.getEntity(), event.getEntity().getKiller(),plugin,this.dropitems);
 			if(loots != null){
 				items.clear();
 				for (ItemStack itemStack : loots) {
