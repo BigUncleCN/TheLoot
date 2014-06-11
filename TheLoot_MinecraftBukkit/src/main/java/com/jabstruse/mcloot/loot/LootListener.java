@@ -33,7 +33,7 @@ public class LootListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onEntityDeath(EntityDeathEvent event){
-		plugin.getLogger().info(" == onEntityDeathEvent == " + event.getEntity().getKiller());
+		//plugin.getLogger().info(" == onEntityDeathEvent == " + event.getEntity().getKiller());
 		if(event.getEntity().getKiller()!=null){
 			List<ItemStack> items = event.getDrops();
 			ItemStack[] loots = LootController.GetLoots(event.getEntity(), event.getEntity().getKiller(),plugin,this.dropitems,this.dropChance);

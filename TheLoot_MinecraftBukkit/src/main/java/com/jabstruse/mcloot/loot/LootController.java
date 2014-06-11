@@ -29,7 +29,7 @@ public class LootController {
 		float mfOffset = 0.0f;
 		EntityType monsterType = entity.getType();
 		int testInt = random.nextInt(100);
-		plugin.getLogger().info("Health : " + entity.getMaxHealth());
+		plugin.getLogger().info(" [" + entity.getType().name() + "] Health : " + entity.getMaxHealth());
 		mfOffset += (entity.getMaxHealth() / 2) / 10;
 		// monsterType.
 		switch (monsterType) {
