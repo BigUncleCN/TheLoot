@@ -107,7 +107,7 @@ public class LootController {
 			for (int j = 0; j < itemQualitySize; j++) {
 				r1 = (random.nextInt(99) + 1);
 				r1 = r1 - ((r1 * mf) - r1);
-				System.out.println("Item:" + ItemQuality.values()[j] + " -> " + r1 + "/" + dropRate);
+				System.out.println("Item:" + ItemQuality.values()[itemQualitySize-j] + " -> " + r1 + "/" + dropRate);
 				if (r1 <= dropRate) {
 					// 物品质量选择
 					itemQuality = ItemQuality.values()[itemQualitySize-j];
