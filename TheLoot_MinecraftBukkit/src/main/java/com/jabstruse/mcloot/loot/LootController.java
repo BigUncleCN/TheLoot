@@ -29,7 +29,6 @@ public class LootController {
 		float mfOffset = 0.0f;
 		EntityType monsterType = entity.getType();
 		int testInt = random.nextInt(100);
-		plugin.getLogger().info(" [" + entity.getType().name() + "] Health : " + entity.getMaxHealth());
 		mfOffset += (entity.getMaxHealth() / 2) / 10;
 		// monsterType.
 		switch (monsterType) {
@@ -79,10 +78,10 @@ public class LootController {
 			return null;
 		}
 		realDrop = (byte) random.nextInt(maxDrops);
-
 		if (realDrop < minDrop) {
 			realDrop = minDrop;
 		}
+		plugin.getLogger().info(" [" + entity.getType().name() + "] Health : " + entity.getMaxHealth());
 		mf += mfOffset;
 		ItemQuality itemQuality = null;
 		ItemStack[] itemStacks = new ItemStack[realDrop];
@@ -102,6 +101,7 @@ public class LootController {
 				dropRate = Float.parseFloat(dd[1]);
 				rr = random.nextInt(99) + 1;
 			}
+			plugin.getLogger().info(" Item " + itemD + " RR:" + rr);
 			material = Material.getMaterial(dd[0]);
 			float r1 = -1;
 			for (int j = 0; j < itemQualitySize; j++) {
