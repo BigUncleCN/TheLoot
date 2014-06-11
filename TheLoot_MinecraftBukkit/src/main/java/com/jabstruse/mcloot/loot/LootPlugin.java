@@ -12,6 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LootPlugin extends JavaPlugin {
 	private static Plugin instance;
+	private static int dropChance = 50;
 	private LootListener playerListener = null;// = new LootListener(this);
 	private static List<String> dropItems = null;
 	@SuppressWarnings("unchecked")
@@ -29,12 +30,18 @@ public final class LootPlugin extends JavaPlugin {
 			this.saveDefaultConfig();
 			this.getConfig().options().copyDefaults(true);
 			this.getConfig().set("loot.drop.items", dropItems);
+			this.getConfig().set("loot.drop.chance", dropChance);
 			this.saveConfig();
 			getLogger().info("Loots Item Init...");
 		}else{
 			getLogger().info(dropItems.size() + " Loots Items Loaded.");
 		}
-		playerListener = new LootListener(this,dropItems);
+		dropChance = this.getConfig().getInt("loot.drop.chance");
+		if(dropChance == 0){
+			this.getConfig().set("loot.drop.chance", 50);
+			this.saveConfig();
+		}
+		playerListener = new LootListener(this,dropItems,dropChance);
 		pm.registerEvents(playerListener, this);
 		getLogger().info("onEnable has been invoked!");
 	}

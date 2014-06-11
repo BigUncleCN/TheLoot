@@ -15,9 +15,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class LootController {
 	// 爆率递增
 	// 武器
-	
+
 	public static ItemStack[] GetLoots(Entity entity, Player player,
-			LootPlugin plugin,List<String> itemDrops) {
+			LootPlugin plugin, List<String> itemDrops, int testNeedle) {
 		// MonsterType monsterType
 		float mf = 1.0f; // Magic Find 100%
 		byte maxDrops = 2; // How many items should drops
@@ -30,7 +30,6 @@ public class LootController {
 		EntityType monsterType = entity.getType();
 		int testInt = random.nextInt(100);
 		plugin.getLogger().info("Test Number : " + testInt);
-		int testNeedle = 85;
 
 		// monsterType.
 		switch (monsterType) {
@@ -97,22 +96,34 @@ public class LootController {
 			String itemD = itemDrops.get(r);
 			String dd[] = itemD.split(":");
 			float dropRate = Float.parseFloat(dd[1]);
+			float rr = random.nextInt(99) + 1;
+			rr = rr - ((rr * mf) - rr);
+			plugin.getLogger().info(
+					"Item " + itemD + " With RR : " + rr + ":" + dropRate);
+			while (rr > dropRate) {
+				r = random.nextInt(itemDrops.size());
+				itemD = itemDrops.get(r);
+				dd = itemD.split(":");
+				dropRate = Float.parseFloat(dd[1]);
+				rr = random.nextInt(99) + 1;
+				plugin.getLogger().info(
+						"Item " + itemD + " With RR : " + rr + ":" + dropRate);
+			}
 			material = Material.getMaterial(dd[0]);
 			float r1 = -1;
 			for (int j = 0; j < itemQualitySize; j++) {
 				r1 = (random.nextInt(99) + 1);
-				r1 = r1 - ((r1 * mf)-r1);
-				if(r1 <= dropRate){
-					//物品质量选择
+				r1 = r1 - ((r1 * mf) - r1);
+				if (r1 <= dropRate) {
+					// 物品质量选择
 					itemQuality = ItemQuality.values()[j];
 					break;
 				}
+				// 质量高的物品难出
+				mf -= 0.3;
 			}
 			if (itemQuality == null)
 				itemQuality = ItemQuality.Nomore;
-			// item.setItemQuality(itemQuality);
-			// item.setItemType(itemType);
-
 			int enchantmentSize = 0;
 			String display_name = "";
 			if (itemQuality == ItemQuality.Magical) {
@@ -128,13 +139,10 @@ public class LootController {
 				enchantmentSize = 4;
 				display_name = ChatColor.RED + "";
 			}
-			if (plugin != null)
-				plugin.getLogger().info(
-						" => Type " + material + "\tQuality\t" + itemQuality
-								+ " Enchantment Size : " + enchantmentSize);
-			else
-				System.out.println(" => Type " + material + "\tQuality\t"
-						+ itemQuality + "");
+			plugin.getLogger().info(
+					" => Type " + material + "\tQuality\t" + itemQuality
+							+ " Enchantment Size : " + enchantmentSize);
+
 			itemStacks[i] = new ItemStack(material);
 			itemStacks[i].setAmount(1);
 
