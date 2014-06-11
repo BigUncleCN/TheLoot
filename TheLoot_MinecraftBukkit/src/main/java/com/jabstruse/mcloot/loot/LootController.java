@@ -13,9 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class LootController {
-	// 爆率递增
-	// 武器
-
 	public static ItemStack[] GetLoots(LivingEntity entity, Player player,
 			LootPlugin plugin, List<String> itemDrops, int testNeedle) {
 		// MonsterType monsterType
@@ -112,11 +109,9 @@ public class LootController {
 				r1 = r1 - (r1 * ((mf-1) / 2));
 				//System.out.println("Item:" + ItemQuality.values()[itemQualitySize-j-1] + " -> " + r1 + "/" + dropRate);
 				if (r1 <= dropRate) {
-					// 物品质量选择
 					itemQuality = ItemQuality.values()[itemQualitySize-j-1];
 					break;
 				}
-				// 质量高的物品难出
 				dropRate -= (dropRate * 0.4);
 			}
 			if (itemQuality == null)
@@ -170,13 +165,5 @@ public class LootController {
 			}
 		}
 		return itemStacks;
-		/*
-		 * String myDisplayName = "Awesome Sword"; // use the displayname you
-		 * want // here ItemStack myItem = new
-		 * ItemStack(Material.DIAMOND_SWORD); // your item ItemMeta im =
-		 * myItem.getItemMeta(); // get the itemmeta of the item
-		 * im.setDisplayName(myDisplayName); // set the displayname
-		 * myItem.setItemMeta(im); // give the item the new itemmeta
-		 */
 	}
 }
