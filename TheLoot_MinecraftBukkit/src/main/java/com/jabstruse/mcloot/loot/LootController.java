@@ -6,8 +6,8 @@ import java.util.Random;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -16,7 +16,7 @@ public class LootController {
 	// ±¬ÂÊµÝÔö
 	// ÎäÆ÷
 
-	public static ItemStack[] GetLoots(Entity entity, Player player,
+	public static ItemStack[] GetLoots(LivingEntity entity, Player player,
 			LootPlugin plugin, List<String> itemDrops, int testNeedle) {
 		// MonsterType monsterType
 		float mf = 1.0f; // Magic Find 100%
@@ -29,8 +29,8 @@ public class LootController {
 		float mfOffset = 0.0f;
 		EntityType monsterType = entity.getType();
 		int testInt = random.nextInt(100);
-		plugin.getLogger().info("Test Number : " + testInt);
-
+		plugin.getLogger().info("Health : " + entity.getMaxHealth());
+		mfOffset += (entity.getMaxHealth() / 2) / 10;
 		// monsterType.
 		switch (monsterType) {
 		case CREEPER:
