@@ -76,17 +76,14 @@ public class LootController {
 			break;
 		}
 		if (testInt < testNeedle) {
-			plugin.getLogger().info("Test Failed....");
 			return null;
 		}
-		plugin.getLogger().info("Test Success....");
 		realDrop = (byte) random.nextInt(maxDrops);
 
 		if (realDrop < minDrop) {
 			realDrop = minDrop;
 		}
 		mf += mfOffset;
-		plugin.getLogger().info(" MF : " + mf + " DROPS : " + realDrop);
 		ItemQuality itemQuality = null;
 		ItemStack[] itemStacks = new ItemStack[realDrop];
 		for (int i = 0; i < realDrop; i++) {
@@ -98,29 +95,26 @@ public class LootController {
 			float dropRate = Float.parseFloat(dd[1]);
 			float rr = random.nextInt(99) + 1;
 			rr = rr - ((rr * mf) - rr);
-			plugin.getLogger().info(
-					"Item " + itemD + " With RR : " + rr + ":" + dropRate);
 			while (rr > dropRate) {
 				r = random.nextInt(itemDrops.size());
 				itemD = itemDrops.get(r);
 				dd = itemD.split(":");
 				dropRate = Float.parseFloat(dd[1]);
 				rr = random.nextInt(99) + 1;
-				plugin.getLogger().info(
-						"Item " + itemD + " With RR : " + rr + ":" + dropRate);
 			}
 			material = Material.getMaterial(dd[0]);
 			float r1 = -1;
 			for (int j = 0; j < itemQualitySize; j++) {
 				r1 = (random.nextInt(99) + 1);
 				r1 = r1 - ((r1 * mf) - r1);
+				System.out.println("Item:" + ItemQuality.values()[j] + " -> " + r1 + "/" + dropRate);
 				if (r1 <= dropRate) {
 					// 物品质量选择
-					itemQuality = ItemQuality.values()[j];
+					itemQuality = ItemQuality.values()[itemQualitySize-j];
 					break;
 				}
 				// 质量高的物品难出
-				mf -= 0.3;
+				dropRate -= (dropRate * 0.4);
 			}
 			if (itemQuality == null)
 				itemQuality = ItemQuality.Nomore;
@@ -139,10 +133,6 @@ public class LootController {
 				enchantmentSize = 4;
 				display_name = ChatColor.RED + "";
 			}
-			plugin.getLogger().info(
-					" => Type " + material + "\tQuality\t" + itemQuality
-							+ " Enchantment Size : " + enchantmentSize);
-
 			itemStacks[i] = new ItemStack(material);
 			itemStacks[i].setAmount(1);
 
