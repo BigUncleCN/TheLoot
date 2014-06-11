@@ -19,14 +19,14 @@ public class LootController {
 	public static ItemStack[] GetLoots(LivingEntity entity, Player player,
 			LootPlugin plugin, List<String> itemDrops, int testNeedle) {
 		// MonsterType monsterType
-		float mf = 1.0f; // Magic Find 100%
+		double mf = 1.0f; // Magic Find 100%
 		byte maxDrops = 2; // How many items should drops
 		byte minDrop = 2; // Min items should drops
 		byte realDrop = 0; // How many items will drops
 		byte itemQualitySize = (byte) ItemQuality.values().length;
 		Random random = new Random();
 		random.setSeed(System.currentTimeMillis());
-		float mfOffset = 0.0f;
+		double mfOffset = 0.0f;
 		EntityType monsterType = entity.getType();
 		int testInt = random.nextInt(100);
 		mfOffset += (entity.getMaxHealth() / 2) / 10;
@@ -81,8 +81,8 @@ public class LootController {
 		if (realDrop < minDrop) {
 			realDrop = minDrop;
 		}
-		plugin.getLogger().info(" [" + entity.getType().name() + "] Health : " + entity.getMaxHealth());
 		mf += mfOffset;
+		//plugin.getLogger().info(" [" + entity.getType().name() + "] Health : " + entity.getMaxHealth() + " MF:" + mf);
 		ItemQuality itemQuality = null;
 		ItemStack[] itemStacks = new ItemStack[realDrop];
 		for (int i = 0; i < realDrop; i++) {
@@ -91,23 +91,26 @@ public class LootController {
 			r = random.nextInt(itemDrops.size());
 			String itemD = itemDrops.get(r);
 			String dd[] = itemD.split(":");
-			float dropRate = Float.parseFloat(dd[1]);
-			float rr = random.nextInt(99) + 1;
-			rr = rr - ((rr * mf) - rr);
+			double dropRate = Float.parseFloat(dd[1]);
+			double rr = random.nextInt(99) + 1;
+			rr = rr - (rr * ((mf-1) / 2));
+			//plugin.getLogger().info(" == > Item " + itemD + " RR:" + rr);
 			while (rr > dropRate) {
 				r = random.nextInt(itemDrops.size());
 				itemD = itemDrops.get(r);
 				dd = itemD.split(":");
-				dropRate = Float.parseFloat(dd[1]);
+				dropRate = Double.parseDouble(dd[1]);
 				rr = random.nextInt(99) + 1;
+				rr = rr - (rr * ((mf-1) / 2));
+				//plugin.getLogger().info(" Item " + itemD + " RR:" + rr);
 			}
-			plugin.getLogger().info(" Item " + itemD + " RR:" + rr);
+			
 			material = Material.getMaterial(dd[0]);
-			float r1 = -1;
+			double r1 = -1;
 			for (int j = 0; j < itemQualitySize; j++) {
 				r1 = (random.nextInt(99) + 1);
-				r1 = r1 - ((r1 * mf) - r1);
-				System.out.println("Item:" + ItemQuality.values()[itemQualitySize-j-1] + " -> " + r1 + "/" + dropRate);
+				r1 = r1 - (r1 * ((mf-1) / 2));
+				//System.out.println("Item:" + ItemQuality.values()[itemQualitySize-j-1] + " -> " + r1 + "/" + dropRate);
 				if (r1 <= dropRate) {
 					// 物品质量选择
 					itemQuality = ItemQuality.values()[itemQualitySize-j-1];
@@ -153,7 +156,7 @@ public class LootController {
 					//
 					try {
 						itemStacks[i].addEnchantment(ench, lv);
-						plugin.getLogger().info("Enchantment : " + ench);
+						//plugin.getLogger().info("Enchantment : " + ench);
 						enchanted++;
 					} catch (Exception e2) {
 						enchErr++;
